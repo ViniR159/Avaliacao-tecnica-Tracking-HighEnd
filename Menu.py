@@ -1,6 +1,6 @@
 import os
 from InquirerPy import inquirer
-import atividade_1
+import atividade_1, atividade_2
 
 
 escolha = inquirer.select(
@@ -18,6 +18,8 @@ def opcao_escolhida(i):
             atividade_1.atividade()
         case 2:
             print(f"Opção escolhida {i}")
+            os.system("cls")
+            atividade_2.atividade()
         case 3:
             print(f"Opção escolhida {i}")
         case 4:
