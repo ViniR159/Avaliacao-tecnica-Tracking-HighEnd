@@ -1,20 +1,20 @@
 import sys, time
 import sqlite3
 
-def digitar(questao):
+def digitar(questao, vlc):
     for ch in questao:
         sys.stdout.write(ch)
         sys.stdout.flush()
-        time.sleep(0.02)
+        time.sleep(vlc)
     print()
 
-def atividade1():
-  
+def atividade():
+
   digitar("Um cliente envia um formulário com 3 campos: nome, email e telefone. "
             "O webhook recebe os dados no seguinte formato. "
             "Queremos salvar isso em uma tabela de banco de dados chamada leads, "
             "que possui as colunas: nome, email, telefone. "
-            "Explique como você faria o mapeamento entre os campos recebidos e as colunas da tabela.")
+            "Explique como você faria o mapeamento entre os campos recebidos e as colunas da tabela.", 0.02)
 
   data = {
     "full_name": "Maria Oliveira",
@@ -45,9 +45,10 @@ def atividade1():
       (nome, email, phone)
     )
     conn.commit()
-    print(f"Usuario {nome} salvo(a) com sucesso")
-  except Exception :
-    print(f"Erro ao salvar no banco de dados")
+    digitar(f"Usuario {nome} salvo(a) com sucesso\n", 0.01)
+  except Exception as e:
+    digitar(f"Erro ao salvar no banco de dados\n"
+            f"Erro: {e}", 0.01)
 
   conn.close()
 
