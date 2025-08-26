@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style="background-color: black;">
+    <div>
+        <h1 id="texto" style="text-align: center; color: green;"></h1>
+        <h2 id="texto1" style="text-align: center; color: green;"></h2>
+    </div>
+
+    <script>
+
+       const h1 = document.getElementById("texto");
+       const h2 = document.getElementById("texto1")
+
+        function digitar(texto, elemento, i = 0) {
+            if (i < texto.length) {
+                elemento.innerHTML += texto[i];
+                setTimeout(() => digitar(texto, elemento, i + 1), 50);
+            }
+        }
+
+        digitar("Questão 4", h1);
+        digitar("--- Abra o console para ver os resultados ---", h2)
+
+        console.log("Exemplos do ==:");
+
+        console.log("5 == '5'");  
+        console.log(5 == '5');  
+
+        console.log("true == 1");
+        console.log(true == 1);
+
+        console.log("null == undefined");
+        console.log(null == undefined);
+
+        console.log("-------------------------------------------");
+        console.log("Exemplos do ===:");
+
+        console.log("5 === '5'");
+        console.log(5 === '5');
+        
+        console.log("true === 1");
+        console.log(true === 1);
+
+        console.log("null === undefined");
+        console.log(null === undefined);
+    </script>
+</body>
+</html>

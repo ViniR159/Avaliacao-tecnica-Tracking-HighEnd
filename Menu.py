@@ -29,10 +29,16 @@ def opcao_escolhida(i):
             atividade_4.atividade()
         case 5:
             print(f"Opção escolhida {i}")
+            os.system("cls")
+            atividade_5.atividade()
         case 6:
             print(f"Opção escolhida {i}")
+            os.system("cls")
+            atividade_6.atividade()
         case 7:
             print(f"Opção escolhida {i}")
+            os.system("cls")
+            atividade_7.atividade()
         case _:
             print("Opção invalida")
     

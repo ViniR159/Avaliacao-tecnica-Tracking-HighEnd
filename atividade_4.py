@@ -1,4 +1,5 @@
 import sys, time
+import webbrowser
 
 def digitar(questao, vlc):
     for ch in questao:
@@ -8,8 +9,10 @@ def digitar(questao, vlc):
     print()
 
 def atividade():
-
-    digitar("Você recebeu uma lista com 1.000 leads em JSON. "
-          "A API de destino só aceita receber 100 leads por vez. "
-          "Como garantir que todos os 1.000 leads sejam enviados, sem perda e sem repetição?", 0.02)
-  
+    digitar("Explique a diferença entre usar == e === em JavaScript, e mostre um exemplo. \n", 0.01)
+    try:
+        digitar("Abrindo pagina...\n", 0.09)
+        time.sleep(2)
+        webbrowser.open("pagina.html")
+    except Exception as e:
+        digitar(f"Erro: {e}\n")
