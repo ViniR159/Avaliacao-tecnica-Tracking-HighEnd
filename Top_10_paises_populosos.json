@@ -1,0 +1,42 @@
+[
+    {
+        "nome": "China",
+        "populacao": 1402112000
+    },
+    {
+        "nome": "India",
+        "populacao": 1380004385
+    },
+    {
+        "nome": "United States",
+        "populacao": 329484123
+    },
+    {
+        "nome": "Indonesia",
+        "populacao": 273523621
+    },
+    {
+        "nome": "Pakistan",
+        "populacao": 220892331
+    },
+    {
+        "nome": "Brazil",
+        "populacao": 212559409
+    },
+    {
+        "nome": "Nigeria",
+        "populacao": 206139587
+    },
+    {
+        "nome": "Bangladesh",
+        "populacao": 164689383
+    },
+    {
+        "nome": "Russia",
+        "populacao": 144104080
+    },
+    {
+        "nome": "Mexico",
+        "populacao": 128932753
+    }
+]

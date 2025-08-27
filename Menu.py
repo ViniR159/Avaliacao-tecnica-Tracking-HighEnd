@@ -26,12 +26,12 @@ def opcao_escolhida(i):
             atividade_6.atividade()
         case 7:
             os.system("cls")
-            atividade_7.atividade()
+            os.system("python Python/atividade_7.py")
         case _:
             print("Opção invalida")
     
 while True:
-    
+    os.system("cls")    
     escolha = inquirer.select(
             message = "escolha uma opção para ver a resposta",
             choices = [1, 2, 3, 4, 5, 6, 7],
