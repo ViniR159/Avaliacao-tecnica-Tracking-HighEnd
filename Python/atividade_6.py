@@ -9,7 +9,9 @@ def digitar(questao, vlc):
 
 lista_objs = [
     {"nome": "Maria", "idade": None, "email": "maria@teste.com"},
-    {"nome": "João", "idade": 25, "email": None}
+    {"nome": "João", "idade": 25, "email": None},
+    {"nome": None, "idade": 22, "email": "Luke@teste.com"},
+    {"nome": "João", "idade": 24, "email": None}
 ]
 
 def atividade():

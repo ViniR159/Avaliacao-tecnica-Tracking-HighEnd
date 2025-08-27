@@ -51,4 +51,5 @@ def atividade():
             f"Erro: {e}", 0.01)
 
   conn.close()
+  time.sleep(2)
 

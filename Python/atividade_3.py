@@ -1,5 +1,4 @@
 import sys, time
-import sqlite3
 import json
 import requests
 
