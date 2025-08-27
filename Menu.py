@@ -1,10 +1,11 @@
 import os
 from InquirerPy import inquirer
-import atividade_1, atividade_2, atividade_3, atividade_4
+from Python import atividade_1, atividade_2, atividade_3, atividade_4
+from Python import atividade_5, atividade_6, atividade_7
 
 escolha = inquirer.select(
         message = "escolha uma opção para ver a resposta",
-        choices = [1,2,3,4,5,6],
+        choices = [1, 2, 3, 4, 5, 6, 7],
 ).execute()
 
 confirm = inquirer.confirm(message="Confirm?").execute()

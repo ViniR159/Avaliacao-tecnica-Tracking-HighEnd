@@ -1,4 +1,5 @@
 import sys, time
+import os
 import webbrowser
 
 def digitar(questao, vlc):
@@ -13,6 +14,7 @@ def atividade():
     try:
         digitar("Abrindo pagina...\n", 0.09)
         time.sleep(2)
-        webbrowser.open("pagina.html")
+        webbrowser.open(os.path.abspath("HTML\pagina_atividade4.html"))
     except Exception as e:
         digitar(f"Erro: {e}\n")
+
