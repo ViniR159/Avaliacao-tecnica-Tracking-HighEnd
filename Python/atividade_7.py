@@ -4,6 +4,8 @@ import json
 from InquirerPy import inquirer
 import requests
 from fastapi import FastAPI, HTTPException, Query, Body
+import mysql.connector
+from mysql.connector import Error
 
 app = FastAPI()
 
@@ -44,35 +46,79 @@ def buscar_pais(nome: str = Query(..., description="Nome do país a ser buscado"
 
     raise HTTPException(status_code=404, detail="País não encontrado")
 
+def get_db_connection():
+    try:
+        conn = mysql.connector.connect(
+            host='localhost',
+            user='root',
+            password='987654',  
+            database='pais_curtidos'
+        )
+        return conn
+    except Error as e:
+        print(f"Erro ao conectar ao MySQL: {e}")
+        return None
 
-avaliacoes = {}
-
+def salvar_avaliacao_mysql(pais_nome, curti):
+    conn = get_db_connection()
+    if not conn:
+        return False, "Falha na conexão com o banco de dados"
+    try:
+        cursor = conn.cursor()
+        cursor.execute("SELECT curti, nao_curti FROM avaliacoes WHERE pais=%s", (pais_nome,))
+        resultado = cursor.fetchone()
+        if resultado:
+            curti_atual, nao_curti_atual = resultado
+            if curti:
+                curti_atual += 1
+            else:
+                nao_curti_atual += 1
+            cursor.execute(
+                "UPDATE avaliacoes SET curti=%s, nao_curti=%s WHERE pais=%s",
+                (curti_atual, nao_curti_atual, pais_nome)
+            )
+        else:
+            curti_val = 1 if curti else 0
+            nao_curti_val = 0 if curti else 1
+            cursor.execute(
+                "INSERT INTO avaliacoes (pais, curti, nao_curti) VALUES (%s, %s, %s)",
+                (pais_nome, curti_val, nao_curti_val)
+            )
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return True, None
+    except Error as e:
+        return False, str(e)
+    
 @app.post("/paises/avaliar")
 def avaliar_pais(
     nome: str = Body(..., embed=True, description="Nome do país a ser avaliado"),
-    curti: bool = Body(..., embed=True, description="Avaliação: True = curti, False = não curti")):
-
+    curti: bool = Body(..., embed=True, description="Avaliação: True = curti, False = não curti")
+):
     paises = obter_paises()
-
     pais = next((p for p in paises if p["name"]["common"].lower() == nome.lower()), None)
     if not pais:
         raise HTTPException(status_code=404, detail="País não encontrado")
 
-    if pais["name"]["common"] not in avaliacoes:
-        avaliacoes[pais["name"]["common"]] = {"curti": 0, "nao_curti": 0}
+    sucesso, erro = salvar_avaliacao_mysql(pais["name"]["common"], curti)
+    if not sucesso:
+        raise HTTPException(status_code=500, detail=f"Erro ao salvar avaliação: {erro}")
 
-    if curti:
-        avaliacoes[pais["name"]["common"]]["curti"] += 1
-    else:
-        avaliacoes[pais["name"]["common"]]["nao_curti"] += 1
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT curti, nao_curti FROM avaliacoes WHERE pais=%s", (pais["name"]["common"],))
+    curti_total, nao_curti_total = cursor.fetchone()
+    cursor.close()
+    conn.close()
 
-    total_votos = avaliacoes[pais["name"]["common"]]["curti"] + avaliacoes[pais["name"]["common"]]["nao_curti"]
+    total_votos = curti_total + nao_curti_total
 
     return {
         "pais": pais["name"]["common"],
         "status": "sucesso",
-        "curti": avaliacoes[pais["name"]["common"]]["curti"],
-        "nao_curti": avaliacoes[pais["name"]["common"]]["nao_curti"],
+        "curti": curti_total,
+        "nao_curti": nao_curti_total,
         "total_votos": total_votos
     }
 
@@ -96,15 +142,34 @@ def curtir(nome_pais: str):
         digitar(f"País: {resultado['pais']}",0.02)
         digitar(f"Curtidas: {resultado['curti']} |  Não curtidas: {resultado['nao_curti']} | Total: {resultado['total_votos']}",0.02)
     else:
-        digitar("Erro ao avaliar:", resposta.text,0.02)
+        digitar(f"Erro ao avaliar: {resposta.text}",0.02)
 
 @app.get("/paises/curtidos")
 def paises_curtidos():
+    conn = get_db_connection()
+    if not conn:
+        raise HTTPException(status_code=500, detail="Erro ao conectar ao banco de dados")
+    
+    cursor = conn.cursor(dictionary=True)
+    try:
+        cursor.execute("SELECT pais, curti, nao_curti FROM avaliacoes WHERE curti > 0 OR nao_curti > 0")
+        resultados = cursor.fetchall()
+    except Error as e:
+        raise HTTPException(status_code=500, detail=f"Erro ao consultar o banco: {e}")
+    finally:
+        cursor.close()
+        conn.close()
+    
     curtidos = [
-        {"pais": nome, "curti": dados["curti"], "nao_curti": dados["nao_curti"], "total": dados["curti"] + dados["nao_curti"]}
-        for nome, dados in avaliacoes.items()
-        if dados["curti"] > 0
+        {
+            "pais": r["pais"],
+            "curti": r["curti"],
+            "nao_curti": r["nao_curti"],
+            "total": r["curti"] + r["nao_curti"]
+        }
+        for r in resultados
     ]
+
     return curtidos
 
 def ver_curtidos():
@@ -188,7 +253,7 @@ def atividade():
                 opcao_escolhida(escolha)
         else:
             os.system("cls")
-            print("Processo cancelado")
+            digitar("Processo cancelado", 0.02)
 
 if __name__ == "__main__":
     t_api = threading.Thread(target=lambda: uvicorn.run(app, host="127.0.0.1", port=8000), daemon=True)

@@ -1,4 +1,4 @@
-import sys, time
+import sys, time, os
 import json
 import requests
 
@@ -30,3 +30,6 @@ def atividade():
         except Exception as e:
             digitar(f"Não foi possivel salvar o seguintes dados: {grupo}\n"
                     f"Erro: {e}\n", 0.01)
+            
+        time.sleep(5)
+        os.system("python ./menu.py")

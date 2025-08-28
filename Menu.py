@@ -1,7 +1,7 @@
 import os
 from InquirerPy import inquirer
 from Python import atividade_1, atividade_2, atividade_3, atividade_4
-from Python import atividade_5, atividade_6, atividade_7
+from Python import atividade_5, atividade_6
 
 def opcao_escolhida(i):
     print(f"Opção escolhida: {i}")

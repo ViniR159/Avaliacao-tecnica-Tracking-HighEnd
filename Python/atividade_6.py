@@ -1,4 +1,4 @@
-import sys, time
+import sys, time, os
 
 def digitar(questao, vlc):
     for ch in questao:
@@ -23,3 +23,5 @@ def atividade():
                 del obj[chave]
 
     digitar(str(lista_objs), 0.02)
+    time.sleep(5)
+    os.system("python ./menu.py")
