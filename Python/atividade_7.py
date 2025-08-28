@@ -85,6 +85,19 @@ def get_db_connection():
             password='987654',  
             database='pais_curtidos'
         )
+
+        cursor = conn.cursor()
+
+        cursor.execute("""
+        CREATE TABLE IF NOT EXISTS avaliacoes (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            pais VARCHAR(100) NOT NULL UNIQUE,
+            curti INT DEFAULT 0,
+            nao_curti INT DEFAULT 0,
+            data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        )
+        """)
+
         return conn
     except Error as e:
         print(f"Erro ao conectar ao MySQL: {e}")
@@ -98,6 +111,7 @@ def salvar_avaliacao_mysql(pais_nome, curti):
         cursor = conn.cursor()
         cursor.execute("SELECT curti, nao_curti FROM avaliacoes WHERE pais=%s", (pais_nome,))
         resultado = cursor.fetchone()
+
         if resultado:
             curti_atual, nao_curti_atual = resultado
             if curti:

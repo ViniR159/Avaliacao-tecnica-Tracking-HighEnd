@@ -57,7 +57,7 @@ def atividade():
             digitar(f"Usuário {nome} salvo(a) com sucesso\n", 0.01)
 
     except Error as e:
-        digitar(f"Erro ao salvar no banco de dados\nErro: {e}", 0.01)
+        digitar(f"Erro ao salvar no banco de dados \n Erro: {e}", 0.01)
 
     finally:
         if conn.is_connected():
@@ -68,5 +68,3 @@ def atividade():
     os.system("python ./menu.py")
 
 
-if __name__ == "__main__":
-    atividade()

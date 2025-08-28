@@ -17,7 +17,7 @@ def atividade():
 
     digitar("Você recebeu uma lista com 1.000 leads em JSON. "
           "A API de destino só aceita receber 100 leads por vez. "
-          "Como garantir que todos os 1.000 leads sejam enviados, sem perda e sem repetição?", 0.02)
+          "Como garantir que todos os 1.000 leads sejam enviados, sem perda e sem repetição? \n", 0.01)
   
     api = "https://apitest007.com"
 
@@ -28,8 +28,7 @@ def atividade():
         try:
             response = requests.post(api, json=dados, timeout=5)
         except Exception as e:
-            digitar(f"Não foi possivel salvar o seguintes dados: {grupo}\n"
-                    f"Erro: {e}\n", 0.01)
+            digitar(f"Erro: {e}\n", 0.01)
             
-        time.sleep(5)
-        os.system("python ./menu.py")
+    time.sleep(5)
+    os.system("python ./menu.py") 

@@ -1,7 +1,6 @@
 import sys, time, os
 import requests
 
-
 def digitar(questao, vlc):
     for ch in questao:
         sys.stdout.write(ch)
@@ -14,13 +13,13 @@ def atividade():
     digitar("Um fluxo precisa enviar os mesmos dados para 3 APIs diferentes. " 
           "Porém, se uma API falhar, o processo não pode parar "
           "— é necessário continuar tentando as outras e apenas registrar o erro ocorrido."
-          "Como você estruturaria essa lógica?", 0.02
+          "nComo você estruturaria essa lógica?", 0.05
         )
   
     data = {
-        "full_name": "Marcus Oliveira",
+        "full_name": "Maria Oliveira",
         "contact": {
-        "email": "Marcus@teste.com",
+        "email": "maria@teste.com",
         "phone": "1198989898"
         }
     }
