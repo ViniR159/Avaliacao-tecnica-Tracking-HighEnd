@@ -11,6 +11,37 @@ app = FastAPI()
 
 api_paises = "https://restcountries.com/v3.1/all?fields=name,population,capital,region,languages,flags"
 
+def digitar(questao, vlc):
+    for ch in questao:
+        sys.stdout.write(ch)
+        sys.stdout.flush()
+        time.sleep(vlc)
+    print()
+
+def opcao_escolhida(i):
+    print(f"Opção escolhida: {i}")
+    match i:
+        case "ver top10":
+            digitar("Abrindo pagina...\n", 0.09)
+            time.sleep(2)
+            webbrowser.open("http://127.0.0.1:8000/paises/top10")
+            time.sleep(1)
+            exportar()
+        case "buscar pais":
+            nome = input("Escreva o nome do pais:")
+            digitar("Abrindo pagina...\n", 0.09)
+            time.sleep(2)
+            webbrowser.open(f"http://127.0.0.1:8000/paises/buscar?nome={nome}")
+            time.sleep(1)
+            curtir(nome) 
+        case "ver paises já curtidos":
+            ver_curtidos()
+            digitar("Abrindo pagina...\n", 0.09)
+            time.sleep(2)
+            webbrowser.open(f"http://127.0.0.1:8000/paises/curtidos")
+            time.sleep(1)
+
+
 def obter_paises():
     resposta = requests.get(api_paises)
     if resposta.status_code != 200:
@@ -202,37 +233,6 @@ def exportar():
         os.system("cls")
         print("Processo cancelado")
 
-def digitar(questao, vlc):
-    for ch in questao:
-        sys.stdout.write(ch)
-        sys.stdout.flush()
-        time.sleep(vlc)
-    print()
-
-def opcao_escolhida(i):
-    print(f"Opção escolhida: {i}")
-    match i:
-        case "ver top10":
-            digitar("Abrindo pagina...\n", 0.09)
-            time.sleep(2)
-            webbrowser.open("http://127.0.0.1:8000/paises/top10")
-            time.sleep(1)
-            exportar()
-        case "buscar pais":
-            nome = input("Escreva o nome do pais:")
-            digitar("Abrindo pagina...\n", 0.09)
-            time.sleep(2)
-            webbrowser.open(f"http://127.0.0.1:8000/paises/buscar?nome={nome}")
-            time.sleep(1)
-            curtir(nome) 
-        case "ver paises já curtidos":
-            ver_curtidos()
-            digitar("Abrindo pagina...\n", 0.09)
-            time.sleep(2)
-            webbrowser.open(f"http://127.0.0.1:8000/paises/curtidos")
-            time.sleep(1)
-
-
 def atividade():
     os.system("cls")
     digitar("Você deve construir uma pequena API (pode ser em Node.js/Python ou dentro do n8n)\n"
@@ -256,7 +256,7 @@ def atividade():
             digitar("Processo cancelado", 0.02)
 
 if __name__ == "__main__":
-    t_api = threading.Thread(target=lambda: uvicorn.run(app, host="127.0.0.1", port=8000), daemon=True)
+    t_api = threading.Thread(target=lambda: uvicorn.run(app, host="localhost", port=8000), daemon=True)
     t_api.start()
 
     time.sleep(5)
