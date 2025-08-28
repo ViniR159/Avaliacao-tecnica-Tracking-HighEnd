@@ -4,11 +4,10 @@ import json
 from InquirerPy import inquirer
 import requests
 from fastapi import FastAPI, HTTPException, Query, Body
-import webbrowser
 
 app = FastAPI()
 
-api_paises = "https://restcountries.com/v3.1/all?fields=name,population"
+api_paises = "https://restcountries.com/v3.1/all?fields=name,population,capital,region,languages,flags"
 
 def obter_paises():
     resposta = requests.get(api_paises)
@@ -29,12 +28,19 @@ def top10():
     return top10
 
 @app.get("/paises/buscar")
-def buscar_pais(nome: str = Query(..., description="Nome do pais a ser buscado")):
+def buscar_pais(nome: str = Query(..., description="Nome do país a ser buscado")):
     paises = obter_paises()
 
     for p in paises:
         if p["name"]["common"].lower() == nome.lower():
-            return {"nome": p["name"]["common"], "populacao": p.get("population", 0)}
+            return {
+                "nome": p["name"]["common"],
+                "populacao": p.get("population", 0),
+                "capital": p.get("capital", ["Desconhecida"])[0],
+                "regiao": p.get("region", "Não informado"),
+                "idiomas": list(p.get("languages", {}).values()),
+                "bandeira": p.get("flags", {}).get("png", "")
+            }
 
     raise HTTPException(status_code=404, detail="País não encontrado")
 
@@ -156,6 +162,10 @@ def opcao_escolhida(i):
             curtir(nome) 
         case "ver paises já curtidos":
             ver_curtidos()
+            digitar("Abrindo pagina...\n", 0.09)
+            time.sleep(2)
+            webbrowser.open(f"http://127.0.0.1:8000/paises/curtidos")
+            time.sleep(1)
 
 
 def atividade():
