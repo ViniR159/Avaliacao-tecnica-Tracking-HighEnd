@@ -13,8 +13,7 @@ def atividade():
     digitar("Um fluxo precisa enviar os mesmos dados para 3 APIs diferentes. " 
           "Porém, se uma API falhar, o processo não pode parar "
           "— é necessário continuar tentando as outras e apenas registrar o erro ocorrido."
-          "nComo você estruturaria essa lógica?", 0.05
-        )
+          " Como você estruturaria essa lógica?", 0.05)
   
     data = {
         "full_name": "Maria Oliveira",

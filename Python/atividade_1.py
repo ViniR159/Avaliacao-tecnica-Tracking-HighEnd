@@ -17,9 +17,9 @@ def atividade():
             "Explique como você faria o mapeamento entre os campos recebidos e as colunas da tabela.", 0.05)
 
     data = {
-        "full_name": "Maria Oliveira",
+        "full_name": "Mario Oliveira",
         "contact": {
-            "email": "maria@teste.com",
+            "email": "Mario@teste.com",
             "phone": "11999998888"
         }
     }

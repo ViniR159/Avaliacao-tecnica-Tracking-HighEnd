@@ -1,4 +1,4 @@
-import os
+import os, time
 from InquirerPy import inquirer
 from Python import atividade_1, atividade_2, atividade_3, atividade_4
 from Python import atividade_5, atividade_6
@@ -40,4 +40,5 @@ while True:
     else:
         os.system("cls")
         print("Processo cancelado")
+        time.sleep(2)
     
